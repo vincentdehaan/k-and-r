@@ -11,15 +11,13 @@ main() {
     int length;
     int state;
 
-    for(i = 0; i < MAXLEN; ++i){
-        printf("%d\n", lengths[i]);
+    for(i = 0; i < MAXLEN; ++i)
         lengths[i] = 0;
-    }
 
     state = IN;
     length = 0;
     while((c = getchar()) != EOF) {
-        if((c == ' ' || c == '\t') && state == OUT) { // A word ends here
+        if((c == ' ' || c == '\t' || c == '\n') && state == OUT) { // A word ends here
             state = IN;
             if(length >= MAXLEN) printf("This word is too long!");
             else ++lengths[length];
@@ -30,11 +28,11 @@ main() {
             ++length;
     }
 
-    if(state == OUT){ // In case the last word is directly followed by EOF
+    if(state == OUT) { // In case the last word is directly followed by EOF
         if(length >= MAXLEN) printf("This word is too long!");
         else ++lengths[length];
-    }   
-    // TODO: aa aa \nEOF
+    }
+
     for(i = 0; i < MAXLEN; ++i) {
         printf("Words of length %d: ", i);
         for(j = 0; j < lengths[i]; j++)
