@@ -1,18 +1,19 @@
-/* Exercise 1-19 */
+/* Exercise 1-20 */
 
 #include <stdio.h>
 #define MAXLINE 1000
+#define TABSTOP 4
 
-void reverse(char s[], char d[]);
+void detab(char s[], char d[]);
 
 main() {
     int len;        /* current line length */
     char line[MAXLINE];     /* current input line */
-    char reversed[MAXLINE];
+    char detabbed[MAXLINE];
     
     while ((len = get_line(line, MAXLINE)) > 0) {
-        reverse(line, reversed);
-        printf("%s\n", reversed);
+        detab(line, detabbed);
+        printf("%s", detabbed);
     }
 
     return 0;
@@ -35,14 +36,16 @@ int get_line(char s[], int lim) {
     return i;
 }
 
-void reverse(char s[], char d[]) {
-    int i = 0, j = 0;
+void detab(char s[], char d[]) {
+    int i, j;
 
-    while(s[i] != '\0')
-        ++i;
+    for(i = j = 0; s[i] != '\0'; i++)
+        if(s[i] == '\t'){
+            if(j % TABSTOP == 0) d[j++] = ' ';
+            while(j % TABSTOP != 0)
+                d[j++] = ' ';
+        }
+        else d[j++] = s[i];
 
-    d[i] = '\0';
-
-    while(i > 0)
-        d[j++] = s[--i];
+    d[j] = '\0';
 }
